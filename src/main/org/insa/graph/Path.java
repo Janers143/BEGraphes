@@ -63,20 +63,49 @@ public class Path {
             throws IllegalArgumentException {
     	
         List<Arc> arcs = new ArrayList<Arc>();
-        List<Arc> successors = new ArrayList<Arc>();
+        
         Iterator<Node> itNode = nodes.iterator();
-        Iterator<Arc> itArc = successors.iterator();
-        Node current = null;
-        Node next = null;
-        Arc nextArc = null;
-        while(itNode.hasNext()) {
-        	current = itNode.next();
-        	successors = current.getSuccessors();
-        	
-        	
-        	
+        
+        if (nodes.size() == 0) {
+        	return new Path(graph);
         }
-        return new Path(graph, arcs);
+        else if (nodes.size() == 1) {
+        	return new Path(graph, nodes.get(0));
+        }
+        else {
+        
+        	Node current = itNode.next();
+        	Node next = null;
+        	
+        	List<Arc> successors = new ArrayList<Arc>();
+        	
+        	Iterator<Arc> itArc = successors.iterator();
+        	Arc nextArc = null;
+        	Arc arcInsert = null;
+        	
+        	while(itNode.hasNext()) {
+        		next = itNode.next();
+        		successors = current.getSuccessors();
+        		
+        		while(itArc.hasNext()) {
+        			nextArc = itArc.next();
+        			
+        			if(nextArc.getDestination().equals(next)) {
+        				arcInsert = nextArc;
+        			}
+        		}
+        		
+        		if (arcInsert == null) {
+        			throw new IllegalArgumentException();
+        		}
+        		else {
+        			arcs.add(arcInsert);
+        			current = next;
+        		}
+        	}
+        	return new Path(graph, arcs);
+        }
+        
     }
 
     /**
