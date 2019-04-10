@@ -35,61 +35,72 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
     	throws IllegalArgumentException {
     	
+    	// Liste des arcs à suivre pour creer le graphe
     	List<Arc> arcs = new ArrayList<Arc>();
-    	boolean arcRapideInit = false;
-    	Arc arcRapide = null;
         
-<<<<<<< HEAD
-        // Detection de la taille de la liste 'nodes' //
-    	
-    	// 0 noeuds //
+        Iterator<Node> itNode = nodes.iterator();
+        
+        // S'il n'y a aucun noeud dans la liste, on crée un Path vide 
         if (nodes.size() == 0) {
         	return new Path(graph);
-        } 
-        // 1 noeud //
+        }
+        // S'il n'y a qu'un noeud, on crée un Path ne contenant qu'un noeud
         else if (nodes.size() == 1) {
         	return new Path(graph, nodes.get(0));
-        } 
-        // 2 noeuds ou plus //
+        }
+        // S'il y a plusieurs noeud :
         else {
+        
+        	Node current = itNode.next();
+        	Node next = null;
         	
-			Iterator<Node> itNode = nodes.iterator();
-        	Node origine = itNode.next();
+        	List<Arc> successors = new ArrayList<Arc>();
         	
-    		while (itNode.hasNext()) {
-        		Node destination = itNode.next();
-        		
-        		Iterator<Arc> itArc = origine.iterator();
+        	
+        	Arc nextArc = null;
+        	Arc arcInsert = null;
+        	boolean arcInsertIsNull = true;
+        	
+        	// On parcourt la liste de noeuds
+        	while(itNode.hasNext()) {
+        		next = itNode.next();
         		successors = current.getSuccessors();
-    			
+        		Iterator<Arc> itArc = successors.iterator();
+        		
+        		// On parcourt la liste d'arcs dont le noeud current est à l'origine
         		while(itArc.hasNext()) {
         			nextArc = itArc.next();
-        			if(minTravelTime > nextArc.getMinimumTravelTime()){
-        				minTravelTime = nextArc.getMinimumTravelTime();
-        				arcInsert = nextArc;
+        			
+        			// Si l'arc courant a pour destination le suivant noeud dans la liste
+        			if(nextArc.getDestination().equals(next)) {
+        				
+        				// Si c'est le premier arc valable que l'on trouve, on le garde 
+        				if (arcInsertIsNull) {
+        					arcInsert = nextArc;
+        					arcInsertIsNull = false;
+        				}
+        				// Sinon, on regarde si on prend moins de temps pour parcourrir l'arc que pour celui que l'on a gardé
+        				// Si c'est le cas, on le garde
+        				else if (arcInsert.getMinimumTravelTime() > nextArc.getMinimumTravelTime()) {
+        					arcInsert = nextArc;
+        				}
         			}
         		}
         		
-        		// Cas dans lequel il n'existe aucun arc qui lie les deux nodes
+        		// Si nous n'avons pas trouvé d'arc unissant les deux noeuds en question, cela veut dire que la 
+        		// liste de noeuds donnée n'est pas valable
         		if (arcInsert == null) {
         			throw new IllegalArgumentException();
-        		} else {
+        		}
+        		// Sinon, on met l'arc trouvé dans la liste permettant de créer notre chemin 
+        		else {
         			arcs.add(arcInsert);
         			current = next;
+        			arcInsertIsNull = true;
         		}
-    		}
+        	}
+        	return new Path(graph, arcs);
         }
-       
-=======
-        Iterator<Arc> itArcs = arcs.iterator();
-        Iterator<Node> itNodes = nodes.iterator();
-        
-		while (itNodes.hasNext()) {
-			itNodes.next();
-		}
->>>>>>> e6a212c6c84b81dcbc118f1161f82afac8971752
-        return new Path(graph, arcs);
-        
     }
 
     /**
