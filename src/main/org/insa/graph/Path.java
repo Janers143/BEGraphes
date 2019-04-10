@@ -32,19 +32,55 @@ public class Path {
      *         consecutive nodes in the list are not connected in the graph.
      */
 	
-    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes) {
-        
+    public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
+    	throws IllegalArgumentException {
+    	
     	List<Arc> arcs = new ArrayList<Arc>();
+    	boolean arcRapideInit = false;
+    	Arc arcRapide = null;
         
-        Iterator<Arc> itArcs = arcs.iterator();
-        Iterator<Node> itNodes = nodes.iterator();
-        
-		while (itNodes.hasNext()) {
-			
-		}
+        // Detection de la taille de la liste 'nodes' //
+    	
+    	// 0 noeuds //
+        if (nodes.size() == 0) {
+        	return new Path(graph);
+        } 
+        // 1 noeud //
+        else if (nodes.size() == 1) {
+        	return new Path(graph, nodes.get(0));
+        } 
+        // 2 noeuds ou plus //
+        else {
+        	
+			Iterator<Node> itNode = nodes.iterator();
+        	Node origine = itNode.next();
+        	
+    		while (itNode.hasNext()) {
+        		Node destination = itNode.next();
+        		
+        		Iterator<Arc> itArc = origine.iterator();
+        		successors = current.getSuccessors();
+    			
+        		while(itArc.hasNext()) {
+        			nextArc = itArc.next();
+        			if(minTravelTime > nextArc.getMinimumTravelTime()){
+        				minTravelTime = nextArc.getMinimumTravelTime();
+        				arcInsert = nextArc;
+        			}
+        		}
+        		
+        		// Cas dans lequel il n'existe aucun arc qui lie les deux nodes
+        		if (arcInsert == null) {
+        			throw new IllegalArgumentException();
+        		} else {
+        			arcs.add(arcInsert);
+        			current = next;
+        		}
+    		}
+        }
+       
         return new Path(graph, arcs);
         
-        //throws IllegalArgumentException {}
     }
 
     /**
