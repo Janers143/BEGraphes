@@ -39,7 +39,6 @@ public class Path {
     	boolean arcRapideInit = false;
     	Arc arcRapide = null;
         
-<<<<<<< HEAD
         // Detection de la taille de la liste 'nodes' //
     	
     	// 0 noeuds //
@@ -80,14 +79,6 @@ public class Path {
     		}
         }
        
-=======
-        Iterator<Arc> itArcs = arcs.iterator();
-        Iterator<Node> itNodes = nodes.iterator();
-        
-		while (itNodes.hasNext()) {
-			itNodes.next();
-		}
->>>>>>> e6a212c6c84b81dcbc118f1161f82afac8971752
         return new Path(graph, arcs);
         
     }
