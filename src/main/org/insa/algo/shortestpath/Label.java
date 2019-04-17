@@ -2,7 +2,7 @@ package org.insa.algo.shortestpath;
 
 import org.insa.graph.*;
 
-public class Label {
+public class Label implements Comparable<Label>{
 	
 	private Node courant;
 	
@@ -15,9 +15,9 @@ public class Label {
 	private Arc arcPere;
 	
 	/** Constructeur de la classe label */
-	public Label(Node sommetCourant, boolean connu, double cost, Node father, Arc arcFather) {
+	public Label(Node sommetCourant, double cost, Node father, Arc arcFather) {
 		this.courant = sommetCourant;
-		this.marque = connu;
+		this.marque = false;
 		this.cout = cost;
 		this.pere = father;
 		this.arcPere = arcFather;
@@ -28,4 +28,21 @@ public class Label {
 		return this.cout;
 	}
 	
+	public Node getCourant() {
+		return this.courant;
+	}
+	
+	public void marquerNode() {
+		this.marque = true;
+	}
+	
+	public boolean isMarked() {
+		return this.marque;
+	}
+	
+	// On redéfinit la methode compareTo pour pouvoir comparer deux labels
+	// On les compare par leur cout
+	public int compareTo(Label other) {
+		return Double.compare(this.cout, other.cout);
+	}
 }
