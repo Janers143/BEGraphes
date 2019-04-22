@@ -69,7 +69,7 @@ public class Launch {
         // Read the path.
         Path path = pathReader.readPath(graph);
 
-        // Drawsudo the path.
+        // Draw the path.
         drawing.drawPath(path);
     }
 

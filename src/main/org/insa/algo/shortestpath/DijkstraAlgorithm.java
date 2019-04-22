@@ -16,13 +16,17 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
         Graph graphUsed = data.getGraph();
         int graphSize = graphUsed.size();
+        
         Label labels[] = new Label[graphSize];
         BinaryHeap<Label> Tas = new BinaryHeap<Label>();
         
         Node Origin = data.getOrigin();
         Node Destination = data.getDestination();
-        Label Current;
         Node currentSuccessor;
+        // Change à true si la valeur du cout et le pere a changé
+        Boolean hasChanged = false;
+        
+        Label Current;
         List<Arc> Successors = new ArrayList<Arc>();
         
         
@@ -39,8 +43,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Successors = Current.getCourant().getSuccessors();
         	for (Arc arcCurrent : Successors) {
         		currentSuccessor = arcCurrent.getDestination();
-        		//Si ce successeur n'est pas marque
-        		// TODO;
+        		// Si ce successeur n'a pas de label, on la crée
+        		if (labels[currentSuccessor.getId()] == null) {
+        			labels[currentSuccessor.getId()] = new Label(currentSuccessor, Double.POSITIVE_INFINITY, 
+        														 Current.getCourant(), arcCurrent);
+        			Tas.insert(labels[currentSuccessor.getId()]);
+        		}
+        		// Si ce successeur n'est pas marque
+        		if (!labels[currentSuccessor.getId()].isMarked()) {
+        			if (Current.getCost() + arcCurrent.getLength() > labels[currentSuccessor.getId()].getCost()) {
+        				
+        			}
+        		}
         	}
         	
         }

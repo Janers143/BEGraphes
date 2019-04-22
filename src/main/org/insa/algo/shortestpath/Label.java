@@ -32,8 +32,25 @@ public class Label implements Comparable<Label>{
 		return this.courant;
 	}
 	
+	public Node getPere() {
+		return this.pere;
+	}
+	
+	public Arc getArcPere() {
+		return this.arcPere;
+	}
+	
 	public void marquerNode() {
 		this.marque = true;
+	}
+	
+	public void setPere(Node father, Arc arcFather) {
+		this.pere = father;
+		this.arcPere = arcFather;
+	}
+	
+	public void setCost(double cost) {
+		this.cout = cost;
 	}
 	
 	public boolean isMarked() {
