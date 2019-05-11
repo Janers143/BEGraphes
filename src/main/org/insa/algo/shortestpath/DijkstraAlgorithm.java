@@ -3,6 +3,7 @@ package org.insa.algo.shortestpath;
 import org.insa.graph.*;
 import org.insa.algo.AbstractSolution.Status;
 import org.insa.algo.utils.*;
+
 import java.util.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
@@ -39,7 +40,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         labels[Origin.getId()].setCost(0.0);
         Tas.insert(labels[Origin.getId()]);
         
-        System.out.println("Avant la boucle principale");
+        // Notify observers about the first event (origin processed).
+        notifyOriginProcessed(data.getOrigin());
         
         // Boucle principale
         while (!labels[Destination.getId()].isMarked() && !Tas.isEmpty()) {
@@ -47,17 +49,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Current = Tas.findMin();
         	Tas.deleteMin();
         	Current.marquerNode();
+        	notifyNodeMarked(Current.getCourant());
+        	
+        	// Affichage de la distance du noeud marqué dans un fichier texte (verification
+        	// du fonctionnement correct de l'algo)
+        	
+        	System.out.println("Noeud marqué : " + Current.getCourant() + " | Distance de l'origine : " + 
+    				 	Current.getCost());
+        	
         	Successors = Current.getCourant().getSuccessors();
         	for (Arc arcCurrent : Successors) {
         		hasChanged = false;
         		
         		currentSuccessor = arcCurrent.getDestination();
-        		// Si ce successeur n'a pas de label, on la crée
-        		/*if (labels[currentSuccessor.getId()] == null) {
-        			labels[currentSuccessor.getId()] = new Label(currentSuccessor, Double.POSITIVE_INFINITY, 
-        														 Current.getCourant(), arcCurrent);
-        			Tas.insert(labels[currentSuccessor.getId()]);
-        		}*/
         		// Si ce successeur n'est pas marque
         		if (!labels[currentSuccessor.getId()].isMarked()) {
         			double oldDistance = labels[currentSuccessor.getId()].getCost();
@@ -83,8 +87,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		}
         	}
         }
-        
-        System.out.println("Après la boucle principale");
         
         /*Creer le Shortest Path à partir de labels*/
         
