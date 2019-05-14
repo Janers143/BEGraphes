@@ -6,4 +6,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
 
+    protected ShortestPathSolution doRun() {
+    	
+    }
 }

@@ -7,9 +7,12 @@ import org.insa.algo.utils.*;
 import java.util.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
+	
+	//private int loopCounter;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        //loopCounter = 0;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         // Boucle principale
         while (!labels[Destination.getId()].isMarked() && !Tas.isEmpty()) {
+        	//loopCounter++;
         	// Le noeud courant est celui qui a le cout le plus petit
         	Current = Tas.findMin();
         	Tas.deleteMin();
@@ -54,8 +58,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	// Affichage de la distance du noeud marqué dans un fichier texte (verification
         	// du fonctionnement correct de l'algo)
         	
-        	System.out.println("Noeud marqué : " + Current.getCourant() + " | Distance de l'origine : " + 
-    				 	Current.getCost());
+        	// System.out.println("Noeud marqué : " + Current.getCourant() + " | Distance de l'origine : " + Current.getCost());
+        	
+        	// System.out.println("Taille du tas : " + Tas.size());
         	
         	Successors = Current.getCourant().getSuccessors();
         	for (Arc arcCurrent : Successors) {
@@ -79,7 +84,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         					Tas.remove(labels[currentSuccessor.getId()]);
         				}
         				catch (ElementNotFoundException e) {
-        					System.out.println(e.getElement());
+        					// System.out.println(e.getElement());
         				}
         				Tas.insert(labels[currentSuccessor.getId()]);
         				labels[currentSuccessor.getId()].setPere(Current.getCourant(), arcCurrent);
@@ -113,6 +118,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         else {
         	solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
+        
+        // System.out.println("Nombre total d'arcs du path : " + solution.getPath().getArcs().size());
+        
+        // System.out.println("Nombre total d'iterations : " + loopCounter);
         
         return solution;
     }
