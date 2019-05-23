@@ -55,7 +55,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Current.marquerNode();
         	notifyNodeMarked(Current.getCourant());
         	
-        	// Affichage de la distance du noeud marqué dans un fichier texte (verification
+        	// Affichage de la distance du noeud marqué (verification
         	// du fonctionnement correct de l'algo)
         	
         	// System.out.println("Noeud marqué : " + Current.getCourant() + " | Distance de l'origine : " + Current.getCost());
@@ -69,9 +69,18 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		currentSuccessor = arcCurrent.getDestination();
         		// Si ce successeur n'est pas marque
         		if (!labels[currentSuccessor.getId()].isMarked()) {
-        			double oldDistance = labels[currentSuccessor.getId()].getCost();
-        			double newDistance = Current.getCost() + arcCurrent.getLength();
-        			if (newDistance < oldDistance) {
+        			double oldDistance = labels[currentSuccessor.getId()].getTotalCost();
+        			double newDistance;
+        			//System.out.println("Cout data : " + data.getCost(arcCurrent) + " | Cout label : " + arcCurrent.getLength());
+        			
+        			if (Double.isInfinite(labels[currentSuccessor.getId()].getCost()))
+        				newDistance = Current.getCost() + data.getCost(arcCurrent);// + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
+        			else
+        				newDistance = Current.getCost() + data.getCost(arcCurrent) + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
+        			//System.out.println(newDistance);
+        			
+        			if (labels[currentSuccessor.getId()].getCost() == Double.POSITIVE_INFINITY || newDistance < oldDistance) {
+        				
         				labels[currentSuccessor.getId()].setCost(newDistance);
         				hasChanged = true;
         			}
