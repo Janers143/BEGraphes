@@ -8,9 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.insa.algo.ArcInspectorFactory;
+import org.insa.algo.AbstractSolution.Status;
+import org.insa.algo.ArcInspector;
 import org.insa.graph.Arc;
 import org.insa.graph.Graph;
 import org.insa.graph.Node;
+import org.insa.graph.Path;
 import org.insa.graph.Point;
 import org.insa.graph.RoadInformation;
 import org.insa.graph.RoadInformation.RoadType;
@@ -68,9 +72,30 @@ public class DijkstraTest{
     	graph = new Graph("MyID", "MyMAP", Arrays.asList(nodes), null);
     }
     
+    /** Fonction permettant de tester l'algorithme de Dijkstra sur un chemin existant de A à D
+     *  La chemin attendu est A->B->C->E->D */
+    @Test
     public void testShortestPathA2D() {
+    	// Chemin de A a D
+    	Node noeudA = nodes[0], noeudD = nodes[3];
+    	// On utilise l'arcInspector pour la distance la plus courte
+    	ArcInspector arcInspectorUsed = ArcInspectorFactory.getAllFilters().get(0);
+    	ShortestPathData data = new ShortestPathData(graph, noeudA, noeudD, arcInspectorUsed);
+    	// On crée la liste d'arcs à utiliser
+    	ArrayList<Arc> arcs = new ArrayList<>();
+    	arcs.add(a2b);
+    	arcs.add(b2c);
+    	arcs.add(c2e);
+    	arcs.add(e2d);
+    	// On crée la solution correcte
+    	ShortestPathSolution SolutionPathA2D = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, arcs));
     	
+    	// On lance l'algorithme de Dijkstra sur le graphe
+    	DijkstraAlgorithm D = new DijkstraAlgorithm(data);
+    	ShortestPathSolution SolutionAlgorithme = D.doRun();
+    	/*for (int i = 0; i < 9; i++) {
+    		System.out.println(nodes[i]);
+    	}*/
+    	assertEquals(SolutionPathA2D, SolutionAlgorithme);
     }
-	
-	
 }

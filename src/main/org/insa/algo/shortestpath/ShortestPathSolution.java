@@ -5,7 +5,7 @@ import org.insa.algo.AbstractSolution;
 import org.insa.graph.Arc;
 import org.insa.graph.Path;
 
-public class ShortestPathSolution extends AbstractSolution {
+public class ShortestPathSolution extends AbstractSolution implements Comparable<ShortestPathSolution> {
 
     // Optimal solution.
     private Path path;
@@ -76,5 +76,23 @@ public class ShortestPathSolution extends AbstractSolution {
         info += " in " + getSolvingTime().getSeconds() + " seconds.";
         return info;
     }
-
+    
+    public int compareTo(ShortestPathSolution s) {
+    	int res = 0;
+    	if (!this.getPath().getArcs().equals(s.getPath().getArcs())) {
+    		res = 1;
+    	}
+    	else if (this.getStatus() != s.getStatus()) {
+    		res = 1;
+    	}
+    	return res;
+    }
+    
+    public boolean equals(Object obj) {
+    	if (this.compareTo((ShortestPathSolution) obj) == 0)
+    		return true;
+    	else 
+    		return false;
+    }
+    
 }

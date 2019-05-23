@@ -67,4 +67,11 @@ public abstract class Arc {
      * @return Points representing segments of this arc.
      */
     public abstract List<Point> getPoints();
+    
+    /**
+     * Return the String to print this arc in an human readable way
+     */
+    public String toString() {
+    	return "Arc : " + this.getOrigin() + "->" + this.getDestination();
+    }
 }
