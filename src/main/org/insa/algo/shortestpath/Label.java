@@ -57,9 +57,13 @@ public class Label implements Comparable<Label>{
 		return this.marque;
 	}
 	
+	public double getTotalCost() {
+		return this.getCost();
+	}
+	
 	// On redéfinit la methode compareTo pour pouvoir comparer deux labels
 	// On les compare par leur cout
 	public int compareTo(Label other) {
-		return Double.compare(this.cout, other.cout);
+		return Double.compare(this.getTotalCost(), other.getTotalCost());
 	}
 }

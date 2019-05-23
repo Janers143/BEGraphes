@@ -2,19 +2,23 @@ package org.insa.algo.shortestpath;
 
 import org.insa.graph.*;
 
-public class LabelStar extends Label{
+public class LabelStar extends Label {
 	
-	private double coutEstimeDestination;
+	private Node Destination;
 	
-	public LabelStar(Node sommetCourant, double cost, Node father, Arc arcFather) {
+	public LabelStar(Node sommetCourant, double cost, Node father, Arc arcFather, Node destination) {
 		super(sommetCourant, cost, father, arcFather);
-		coutEstimeDestination = 0.0;
+		this.Destination = destination;
 	}
 	
-	public void estimationDestination(Node Destination) {
-		Point pointDestination = Destination.getPoint();
+	public double estimationDestination() {
+		Point pointDestination = this.Destination.getPoint();
 		Point pointCourant = this.getCourant().getPoint();
-		this.coutEstimeDestination = pointCourant.distanceTo(pointDestination);
+		return pointCourant.distanceTo(pointDestination);
 	}
 	
+	public double getTotalCost() {
+		this.estimationDestination();
+		return this.getCost() + this.estimationDestination();
+	}
 }
