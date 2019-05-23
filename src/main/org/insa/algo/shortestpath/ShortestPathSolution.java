@@ -79,8 +79,18 @@ public class ShortestPathSolution extends AbstractSolution implements Comparable
     
     public int compareTo(ShortestPathSolution s) {
     	int res = 0;
-    	if (!this.getPath().getArcs().equals(s.getPath().getArcs())) {
+    	if (this.getInputData().getGraph() != s.getInputData().getGraph()) {
     		res = 1;
+    	}
+    	/* Modifier cette condition pour qu'elle regarde le cas où :
+    	*  1- Les deux listes sont vide => res = 0
+    	*  2- Une liste est vide et l'autre non => res = 1 (2 cas : this et other)
+    	*  3- Aucune des listes est vide => res = 1
+    	*/
+    	if (s.isFeasible() && this.isFeasible()) {
+    		if (!this.getPath().getArcs().equals(s.getPath().getArcs())) {
+    			res = 1;
+    		}
     	}
     	else if (this.getStatus() != s.getStatus()) {
     		res = 1;

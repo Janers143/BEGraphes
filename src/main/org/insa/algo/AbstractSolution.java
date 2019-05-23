@@ -41,6 +41,7 @@ public abstract class AbstractSolution {
     protected AbstractSolution(AbstractInputData data, Status status) {
         this.data = data;
         this.status = status;
+        this.solvingTime = Duration.ZERO;
     }
 
     /**

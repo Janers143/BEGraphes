@@ -54,7 +54,7 @@ public class DijkstraTest{
     	
     	// Create all the arcs
     	a2b = Node.linkNodes(nodes[0], nodes[1], 3, speed100, null);
-    	a2e = Node.linkNodes(nodes[0], nodes[5], 7, speed100, null);
+    	a2e = Node.linkNodes(nodes[0], nodes[4], 7, speed100, null);
     	a2i = Node.linkNodes(nodes[0], nodes[8], 5, speed50 , null);
     	b2a = Node.linkNodes(nodes[1], nodes[0], 3, speed100, null);
     	b2c = Node.linkNodes(nodes[1], nodes[2], 2, speed100, null);
@@ -92,10 +92,38 @@ public class DijkstraTest{
     	
     	// On lance l'algorithme de Dijkstra sur le graphe
     	DijkstraAlgorithm D = new DijkstraAlgorithm(data);
-    	ShortestPathSolution SolutionAlgorithme = D.doRun();
+    	ShortestPathSolution SolutionAlgorithme = D.run();
+    	System.out.println("Temps de resolution 1 " + SolutionAlgorithme.getSolvingTime());
     	/*for (int i = 0; i < 9; i++) {
     		System.out.println(nodes[i]);
     	}*/
+    	
     	assertEquals(SolutionPathA2D, SolutionAlgorithme);
+    }
+    
+    /** Fonction permettant de tester l'algorithme de Dijkstre sur un chemin inexistant */
+    @Test
+    public void testNoPathExistingA2F() {
+    	// Chemin de A a F
+    	Node noeudA = nodes[0], noeudF = nodes[5];
+    	// On utilise l'arcInspector pour la distance la plus courte
+    	ArcInspector arcInspectorUsed = ArcInspectorFactory.getAllFilters().get(0);
+    	ShortestPathData data = new ShortestPathData(graph, noeudA, noeudF, arcInspectorUsed);
+    	// On crée la solution correcte
+    	ShortestPathSolution SolutionPathA2F = new ShortestPathSolution(data, Status.INFEASIBLE);
+    	
+    	// On lance l'algorithme de Dijkstra sur le graphe
+    	DijkstraAlgorithm D = new DijkstraAlgorithm(data);
+    	ShortestPathSolution SolutionAlgorithme = D.run();
+    	System.out.println("Temps de resolution 2 " + SolutionAlgorithme.getSolvingTime());
+    	
+    	assertEquals(SolutionPathA2F, SolutionAlgorithme);
+    }
+    
+    /** Fonction permettant de tester l'algorithme de Dijkstra sur un ayant pour origine et pour
+     *  destination le même noeud */
+    @Test
+    public void testShortestPathA2A() {
+    	
     }
 }
