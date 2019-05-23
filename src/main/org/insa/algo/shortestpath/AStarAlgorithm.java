@@ -22,7 +22,7 @@ public class AStarAlgorithm extends ShortestPathAlgorithm {
         LabelStar labels[] = new LabelStar[graphSize];
         // On initialise le tableau
         for (int i = 0; i < graphSize; i++) {
-        	labels[i] = new LabelStar(graphUsed.get(i), Double.POSITIVE_INFINITY, null, null, data.getDestination());
+        	labels[i] = new LabelStar(graphUsed.get(i), Double.POSITIVE_INFINITY, null, null, data);
         }
         
         BinaryHeap<Label> Tas = new BinaryHeap<Label>();
@@ -67,10 +67,20 @@ public class AStarAlgorithm extends ShortestPathAlgorithm {
         		currentSuccessor = arcCurrent.getDestination();
         		// Si ce successeur n'est pas marque
         		if (!labels[currentSuccessor.getId()].isMarked()) {
-        			double oldDistance = labels[currentSuccessor.getId()].getCost();
-        			double newDistance = Current.getCost() + arcCurrent.getLength();
+        			
+        			/*double oldDistance = labels[currentSuccessor.getId()].getCost();
+        			double newDistance = Current.getCost() + arcCurrent.getLength();*/
+        			
+        			double oldDistance = labels[currentSuccessor.getId()].getTotalCost();
+        			double newDistance;
+        			
+        			if (Double.isInfinite(labels[currentSuccessor.getId()].getCost()))
+        				newDistance = Current.getCost() + data.getCost(arcCurrent);// + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
+        			else
+        				newDistance = Current.getCost() + data.getCost(arcCurrent) + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
+        			
         			if (newDistance < oldDistance) {
-        				labels[currentSuccessor.getId()].setCost(newDistance);
+        				labels[currentSuccessor.getId()].setCost(Current.getCost() + data.getCost(arcCurrent));
         				hasChanged = true;
         			}
         			if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {

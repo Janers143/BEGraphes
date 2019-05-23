@@ -70,18 +70,11 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		// Si ce successeur n'est pas marque
         		if (!labels[currentSuccessor.getId()].isMarked()) {
         			double oldDistance = labels[currentSuccessor.getId()].getTotalCost();
-        			double newDistance;
-        			//System.out.println("Cout data : " + data.getCost(arcCurrent) + " | Cout label : " + arcCurrent.getLength());
-        			
-        			if (Double.isInfinite(labels[currentSuccessor.getId()].getCost()))
-        				newDistance = Current.getCost() + data.getCost(arcCurrent);// + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
-        			else
-        				newDistance = Current.getCost() + data.getCost(arcCurrent) + (labels[currentSuccessor.getId()].getTotalCost() - labels[currentSuccessor.getId()].getCost());
-        			//System.out.println(newDistance);
+        			double newDistance = Current.getCost() + data.getCost(arcCurrent);
         			
         			if (labels[currentSuccessor.getId()].getCost() == Double.POSITIVE_INFINITY || newDistance < oldDistance) {
         				
-        				labels[currentSuccessor.getId()].setCost(newDistance);
+        				labels[currentSuccessor.getId()].setCost(Current.getCost() + data.getCost(arcCurrent));
         				hasChanged = true;
         			}
         			if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
