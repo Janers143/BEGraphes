@@ -18,7 +18,7 @@ import org.insa.graph.io.GraphReader;
 
 import org.junit.Test;
 
-public class DijkstraTestMap {
+public class AStarTestMap {
 	
 	/** Fonction permettant de tester l'algo de dijkstra avec oracle :
 	 *  on prendra la solution obtenue par Bellman-Ford comme oracle.
@@ -59,8 +59,8 @@ public class DijkstraTestMap {
 			
 			// On trouve les chemins à l'aide de Bellman-Ford et de Dijkstra
 			BellmanFordAlgorithm B = new BellmanFordAlgorithm(data);
-			DijkstraAlgorithm D = new DijkstraAlgorithm(data);
-			ShortestPathSolution solution = D.run();
+			AStarAlgorithm A = new AStarAlgorithm(data);
+			ShortestPathSolution solution = A.run();
 			ShortestPathSolution attendu = B.run();
 			
 			if (solution.getPath() == null) {

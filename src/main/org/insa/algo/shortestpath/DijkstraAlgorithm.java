@@ -8,11 +8,11 @@ import java.util.*;
 
 public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 	
-	//private int loopCounter;
+	private int nbNodesVisited;
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
-        //loopCounter = 0;
+        this.nbNodesVisited = 0;
     }
 
     @Override
@@ -79,6 +79,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			}
         			if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
                         notifyNodeReached(arcCurrent.getDestination());
+                        this.nbNodesVisited++;
                     }
         			
         			if (hasChanged) {
@@ -126,5 +127,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         // System.out.println("Nombre total d'iterations : " + loopCounter);
         
         return solution;
+    }
+    
+    public int getNbNodesVisited() {
+    	return this.nbNodesVisited;
     }
 }

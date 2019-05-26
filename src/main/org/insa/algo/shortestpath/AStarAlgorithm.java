@@ -7,10 +7,11 @@ import org.insa.algo.utils.*;
 
 public class AStarAlgorithm extends ShortestPathAlgorithm {
 	
-	//private int loopCounter;
+	private int nbNodesVisited;
+	
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
-        //loopCounter = 0;
+        this.nbNodesVisited = 0;
     }
    
     @Override
@@ -61,7 +62,8 @@ public class AStarAlgorithm extends ShortestPathAlgorithm {
         	// System.out.println("Taille du tas : " + Tas.size());
         	
         	Successors = Current.getCourant().getSuccessors();
-        	for (Arc arcCurrent : Successors) {
+        	
+        	for (Arc arcCurrent : Successors) {  		
         		hasChanged = false;
         		
         		currentSuccessor = arcCurrent.getDestination();
@@ -85,6 +87,7 @@ public class AStarAlgorithm extends ShortestPathAlgorithm {
         			}
         			if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
                         notifyNodeReached(arcCurrent.getDestination());
+                        this.nbNodesVisited++;
                     }
         			
         			if (hasChanged) {
@@ -132,5 +135,9 @@ public class AStarAlgorithm extends ShortestPathAlgorithm {
         // System.out.println("Nombre total d'iterations : " + loopCounter);
         
         return solution;
+    }
+    
+    public int getNbNodesVisited() {
+    	return this.nbNodesVisited;
     }
 }
